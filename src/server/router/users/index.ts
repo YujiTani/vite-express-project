@@ -9,45 +9,45 @@ const router = express.Router();
 router.get('/users', getUsers);
 
 router.get('/users/:id', [
-  param('id').isInt().withMessage('ID must be an integer')
+  param('id').isInt().withMessage('IDは整数でなければなりません')
 ], validateRequest, getUserById);
 router.post('/users',[
- body('name').notEmpty().withMessage('Name is required'),
- body('name').isLength({max: 60}).withMessage('Name must be within 60 characters'),
+ body('name').notEmpty().withMessage('名前は必須です'),
+ body('name').isLength({max: 60}).withMessage('名前は60文字以内でなければなりません'),
  
- body('email').notEmpty().withMessage('Email is required'),
- body('email').isEmail().withMessage('Invalid email format'),
+ body('email').notEmpty().withMessage('メールアドレスは必須です'),
+ body('email').isEmail().withMessage('メールアドレスの形式が正しくありません'),
 
- body('age').notEmpty().withMessage('Age is required'),
- body('age').isInt().withMessage('Age must be an integer'),
- body('age').isInt({min: 0}).withMessage('Age must be greater than 0'),
+ body('age').notEmpty().withMessage('年齢は必須です'),
+ body('age').isInt().withMessage('年齢は整数でなければなりません'),
+ body('age').isInt({min: 0}).withMessage('年齢は0以上でなければなりません'),
 
- body('gender').notEmpty().withMessage('Gender is required'),
- body('gender').isIn(['male', 'female', 'other']).withMessage('Invalid gender'),
+ body('gender').notEmpty().withMessage('性別は必須です'),
+ body('gender').isIn(['male', 'female', 'other']).withMessage('性別が無効です'),
 ], validateRequest, registerUser);
 router.put('/users/:id', [
-  param('id').isInt().withMessage('ID must be an integer'),
+  param('id').isInt().withMessage('IDは整数でなければなりません'),
   
-  body('name').notEmpty().withMessage('Name is required'),
-  body('name').isLength({max: 60}).withMessage('Name must be within 60 characters'),
+  body('name').notEmpty().withMessage('名前は必須です'),
+  body('name').isLength({max: 60}).withMessage('名前は60文字以内でなければなりません'),
   
-  body('email').notEmpty().withMessage('Email is required'),
-  body('email').isEmail().withMessage('Invalid email format'),
+  body('email').notEmpty().withMessage('メールアドレスは必須です'),
+  body('email').isEmail().withMessage('メールアドレスの形式が正しくありません'),
  
-  body('age').notEmpty().withMessage('Age is required'),
-  body('age').isInt().withMessage('Age must be an integer'),
-  body('age').isInt({min: 0}).withMessage('Age must be greater than 0'),
+  body('age').notEmpty().withMessage('年齢は必須です'),
+  body('age').isInt().withMessage('年齢は整数でなければなりません'),
+  body('age').isInt({min: 0}).withMessage('年齢は0以上でなければなりません'),
  
-  body('gender').notEmpty().withMessage('Gender is required'),
-  body('gender').isIn(['male', 'female', 'other']).withMessage('Invalid gender'),
+  body('gender').notEmpty().withMessage('性別は必須です'),
+  body('gender').isIn(['male', 'female', 'other']).withMessage('性別が無効です'),
 ], validateRequest, updateUser);
 router.patch('/users/:id',[
-  param('id').isInt().withMessage('ID must be an integer'),
-  body('name').notEmpty().withMessage('Name is required'),
-  body('name').isLength({max: 60}).withMessage('Name must be within 60 characters'),
+  param('id').isInt().withMessage('IDは整数でなければなりません'),
+  body('name').notEmpty().withMessage('名前は必須です'),
+  body('name').isLength({max: 60}).withMessage('名前は60文字以内でなければなりません'),
 ], validateRequest, updateUserName);
 router.delete('/users/:id', [
-  param('id').isInt().withMessage('ID must be an integer'),
+  param('id').isInt().withMessage('IDは整数でなければなりません'),
 ], validateRequest, deleteUser);
 
 export { router as usersRouter };
