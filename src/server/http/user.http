@@ -15,11 +15,19 @@ GET http://localhost:3005/api/users
 POST http://localhost:3005/api/users
 content-type: application/json
 
+# {
+#   "name": "Yuji Tani",
+#   "email": "yuji.tani@example.com",
+#   "age": 30,
+#   "gender": "male"
+# }
+
+# バリデーションチェック用
 {
-  "name": "Yuji Tani",
-  "email": "yuji.tani@example.com",
-  "age": 30,
-  "gender": "male"
+  "name": "",
+  "email": "",
+  "age": 0,
+  "gender": ""
 }
 
 ### 
