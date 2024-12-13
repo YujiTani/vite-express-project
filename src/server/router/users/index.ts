@@ -7,53 +7,12 @@ import { basicUserValidation, updateUserValidation } from "@/server/validator/us
 
 const router = express.Router();
 
-router.get('/users', getUsers);
-
-router.get(
-  '/users/:id', 
-  [
-    ...validateId
-  ], 
-  validateRequest, 
-  getUserById
-);
-
-router.post(
-  '/users',
-  [
-    ...basicUserValidation,
-  ], 
-  validateRequest, 
-  registerUser
-);
-
-router.put(
-  '/users/:id', 
-  [
-    ...validateId,
-    ...updateUserValidation,
-  ], 
-  validateRequest, 
-  updateUser
-);
-
-router.patch(
-  '/users/:id',
-  [
-    ...validateId,
-    ...updateUserValidation,
-  ], 
-  validateRequest, 
-  updateUserName
-);
-
-router.delete(
-  '/users/:id',
-  [
-    ...validateId,
-  ], 
-  validateRequest, 
-  deleteUser
-);
+// routerはpath,validator,controllerの3つを設定する
+router.get('/', getUsers);
+router.get('/:id', [...validateId, validateRequest], getUserById);
+router.post('/', [...basicUserValidation, validateRequest], registerUser);
+router.put('/:id', [...validateId, ...updateUserValidation, validateRequest], updateUser);
+router.patch('/:id', [...validateId, ...updateUserValidation, validateRequest], updateUserName);
+router.delete('/:id', [...validateId, validateRequest], deleteUser);
 
 export { router as usersRouter };

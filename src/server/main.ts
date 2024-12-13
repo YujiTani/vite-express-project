@@ -1,15 +1,13 @@
 import express from "express";
 import ViteExpress from "vite-express";
 
-import { usersRouter } from "@/server/router/users/index.js";
-
+import { apiRouter } from "@/server/router/index.js";
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// TODO: 大元にまとめたrouterを使うようにしたい
-app.use('/api', usersRouter)
+app.use('/api', apiRouter)
 
 app.get("/hello", (_, res) => {
   res.send("Hello Vite + React + TypeScript!");
