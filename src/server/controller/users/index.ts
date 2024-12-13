@@ -22,6 +22,11 @@ const getUsers = async (req: express.Request, res: express.Response) => {
 
 const getUserById = async (req: express.Request, res: express.Response) => {
   const user = users.find((user) => user.id === Number(req.params.id));
+
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+
   res.json(user);
 }
 
@@ -77,6 +82,11 @@ const updateUser = async (req: express.Request, res: express.Response) => {
 
 const deleteUser = async (req: express.Request, res: express.Response) => {
   const user = users.find((user) => user.id === Number(req.params.id));
+
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+
   users = users.filter((user) => user.id !== Number(req.params.id));
   res.json(user);
 }
