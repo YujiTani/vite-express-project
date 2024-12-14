@@ -1,14 +1,9 @@
 import express from "express";
 
-const app = express();
+import { User } from "@/server/types/controller/users.js";
+import { ApiController } from "@/server/types/common/index.js";
 
-type User = {
-  id: number;
-  name: string;
-  email: string;
-  age: number;
-  gender: string;
-}
+const app = express();
 
 // TODO: DBに接続してデータを取得するようにする
 let users: User[] = [
@@ -16,22 +11,22 @@ let users: User[] = [
   { id: 2, name: "Jane Doe", email: "jane.doe@example.com", age: 21, gender: "female" },
 ];
 
-const getUsers = async (req: express.Request, res: express.Response) => {
-  res.json(users);
+const getUsers: ApiController = async (req: express.Request, res: express.Response) => {
+  return res.json(users);
 }
 
-const getUserById = async (req: express.Request, res: express.Response) => {
+const getUserById: ApiController = async (req: express.Request, res: express.Response) => {
   const user = users.find((user) => user.id === Number(req.params.id));
 
   if (!user) {
     return res.status(404).json({ message: 'User not found' });
   }
 
-  res.json(user);
+  return res.json(user);
 }
 
-const registerUser = async (req: express.Request, res: express.Response) => {
-  const newUser = {
+const registerUser: ApiController = async (req: express.Request, res: express.Response) => {
+  const newUser: User = {
     id: users.length + 1,
     name: req.body.name,
     email: req.body.email,
@@ -40,10 +35,10 @@ const registerUser = async (req: express.Request, res: express.Response) => {
   };
 
   users.push(newUser);
-  res.status(201).json(newUser);
+  return res.status(201).json(newUser);
 }
 
-const updateUserName = async (req: express.Request, res: express.Response) => {
+const updateUserName: ApiController = async (req: express.Request, res: express.Response) => {
   const user = users.find((user) => user.id === Number(req.params.id));
 
   if (!user) {
@@ -51,17 +46,17 @@ const updateUserName = async (req: express.Request, res: express.Response) => {
   }
 
   user.name = req.body.name;
-  res.json(user);
+  return res.json(user);
 }
 
-const updateUser = async (req: express.Request, res: express.Response) => {
+const updateUser: ApiController = async (req: express.Request, res: express.Response) => {
   const user = users.find((user) => user.id === Number(req.params.id));
 
   if (!user) {
     return res.status(404).json({ message: 'User not found' });
   }
 
-  const newUser = {
+  const newUser: User = {
     id: user.id,
     name: req.body.name,
     email: req.body.email,
@@ -77,10 +72,10 @@ const updateUser = async (req: express.Request, res: express.Response) => {
     return user;
   });
 
-  res.json(newUser);
+  return res.json(newUser);
 }
 
-const deleteUser = async (req: express.Request, res: express.Response) => {
+const deleteUser: ApiController = async (req: express.Request, res: express.Response) => {
   const user = users.find((user) => user.id === Number(req.params.id));
 
   if (!user) {
@@ -88,7 +83,7 @@ const deleteUser = async (req: express.Request, res: express.Response) => {
   }
 
   users = users.filter((user) => user.id !== Number(req.params.id));
-  res.json(user);
+  return res.json(user);
 }
 
 export { getUsers, getUserById, registerUser, updateUser, updateUserName, deleteUser };
