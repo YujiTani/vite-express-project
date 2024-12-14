@@ -10,8 +10,8 @@ app.use(express.json());
 app.use('/api', apiRoutes)
 
 // 404エラー
-app.use((req, res) => {
-  res.status(404).json({ message: 'page not found' });
+app.use((_req, res) => {
+  return res.status(404).json({ message: 'Invalid API route' });
 })
 
 ViteExpress.listen(app, 3005, () =>
