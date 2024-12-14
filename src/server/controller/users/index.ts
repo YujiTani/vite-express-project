@@ -1,9 +1,7 @@
-import express from "express";
+import { Request, Response } from "express";
 
-import { User } from "@/server/types/controller/users.js";
-import { ApiController } from "@/server/types/common/index.js";
-
-const app = express();
+import { User } from "@/server/types/controller/users.ts";
+import { ApiController } from "@/server/types/common/index.ts";
 
 // TODO: DBに接続してデータを取得するようにする
 let users: User[] = [
@@ -11,11 +9,11 @@ let users: User[] = [
   { id: 2, name: "Jane Doe", email: "jane.doe@example.com", age: 21, gender: "female" },
 ];
 
-const getUsers: ApiController = async (req: express.Request, res: express.Response) => {
+const getUsers: ApiController = async (req: Request, res: Response) => {
   return res.json(users);
 }
 
-const getUserById: ApiController = async (req: express.Request, res: express.Response) => {
+const getUserById: ApiController = async (req: Request, res: Response) => {
   const user = users.find((user) => user.id === Number(req.params.id));
 
   if (!user) {
@@ -25,7 +23,7 @@ const getUserById: ApiController = async (req: express.Request, res: express.Res
   return res.json(user);
 }
 
-const registerUser: ApiController = async (req: express.Request, res: express.Response) => {
+const registerUser: ApiController = async (req: Request, res: Response) => {
   const newUser: User = {
     id: users.length + 1,
     name: req.body.name,
@@ -38,7 +36,7 @@ const registerUser: ApiController = async (req: express.Request, res: express.Re
   return res.status(201).json(newUser);
 }
 
-const updateUserName: ApiController = async (req: express.Request, res: express.Response) => {
+const updateUserName: ApiController = async (req: Request, res: Response) => {
   const user = users.find((user) => user.id === Number(req.params.id));
 
   if (!user) {
@@ -49,7 +47,7 @@ const updateUserName: ApiController = async (req: express.Request, res: express.
   return res.json(user);
 }
 
-const updateUser: ApiController = async (req: express.Request, res: express.Response) => {
+const updateUser: ApiController = async (req: Request, res: Response) => {
   const user = users.find((user) => user.id === Number(req.params.id));
 
   if (!user) {
@@ -75,7 +73,7 @@ const updateUser: ApiController = async (req: express.Request, res: express.Resp
   return res.json(newUser);
 }
 
-const deleteUser: ApiController = async (req: express.Request, res: express.Response) => {
+const deleteUser: ApiController = async (req: Request, res: Response) => {
   const user = users.find((user) => user.id === Number(req.params.id));
 
   if (!user) {
