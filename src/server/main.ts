@@ -1,7 +1,7 @@
 import express from "express";
 import ViteExpress from "vite-express";
 
-import { apiRoutes } from "@/server/router/index.js";
+import { apiRoutes } from "@/server/router/index.ts";
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));

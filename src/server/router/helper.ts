@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import { ApiController } from "@/server/types/common/index.js";
+import { ApiController } from "@/server/types/common/index.ts";
 
 const requestErrorHandler = (controller: ApiController) =>{
   return async (req: Request, res: Response) => {
