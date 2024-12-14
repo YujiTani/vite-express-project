@@ -4,15 +4,16 @@ import { getUsers, getUserById, registerUser, updateUser, updateUserName, delete
 import { validateRequest } from "@/server/validator/helper.js";
 import { validateId } from "@/server/validator/common/index.js";
 import { basicUserValidation, updateUserValidation } from "@/server/validator/users/index.js";
+import { requestErrorHandler } from "@/server/router/helper.js";
 
 const router = express.Router();
 
 // routerはpath,validator,controllerの3つを設定する
-router.get('/', getUsers);
-router.get('/:id', [...validateId, validateRequest], getUserById);
-router.post('/', [...basicUserValidation, validateRequest], registerUser);
-router.put('/:id', [...validateId, ...updateUserValidation, validateRequest], updateUser);
-router.patch('/:id', [...validateId, ...updateUserValidation, validateRequest], updateUserName);
-router.delete('/:id', [...validateId, validateRequest], deleteUser);
+router.get('/', requestErrorHandler(getUsers));
+router.get('/:id', [...validateId, validateRequest], requestErrorHandler(getUserById));
+router.post('/', [...basicUserValidation, validateRequest], requestErrorHandler(registerUser));
+router.put('/:id', [...validateId, ...updateUserValidation, validateRequest], requestErrorHandler(updateUser));
+router.patch('/:id', [...validateId, ...updateUserValidation, validateRequest], requestErrorHandler(updateUserName));
+router.delete('/:id', [...validateId, validateRequest], requestErrorHandler(deleteUser));
 
 export { router as usersRouter };
