@@ -1,9 +1,8 @@
 import express from "express";
 
-import { usersRouter } from "@/server/router/users/index.ts";
+import usersRouter from "@/server/router/users/index.ts";
 
-const router = express.Router();
+const apiRouter = express.Router();
+apiRouter.use('/users', usersRouter);
 
-router.use('/users', usersRouter);
-
-export { router as apiRoutes };
+export { apiRouter };
