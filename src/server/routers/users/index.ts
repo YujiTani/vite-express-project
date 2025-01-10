@@ -1,10 +1,10 @@
 import express from "express";
 
-import { getUsers, getUserById, registerUser, updateUser, updateUserName, deleteUser } from "@/server/controller/users/index.ts";
-import { validateRequest } from "@/server/validator/helper.ts";
-import { validateId } from "@/server/validator/common/index.ts";
-import { basicUserValidation, updateUserValidation } from "@/server/validator/users/index.ts";
-import { requestErrorHandler } from "@/server/controller/helper.ts";
+import { validateRequest } from "@/server/validators/helper.ts";
+import { validateId } from "@/server/validators/common/index.ts";
+import { basicUserValidation, updateUserValidation } from "@/server/validators/users/index.ts";
+import { requestErrorHandler } from "@/server/controllers/helper.ts";
+import { deleteUser, getUserById, getUsers, registerUser, updateUser, updateUserName } from "@/server/controllers/users/index.ts";
 
 const router = express.Router();
 

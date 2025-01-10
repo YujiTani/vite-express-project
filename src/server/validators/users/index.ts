@@ -1,6 +1,6 @@
 import {body, param} from 'express-validator';
 
-const basicUserValidation = [
+export const basicUserValidation = [
   body('name').notEmpty().withMessage('ユーザー名を入力してください'),
   body('name').isLength({max: 60}).withMessage('ユーザー名は60文字以内で入力してください'),
   
@@ -16,7 +16,7 @@ const basicUserValidation = [
 ];
 
 
-const updateUserValidation = [
+export const updateUserValidation = [
   body('name').optional().notEmpty().withMessage('ユーザー名を入力してください'),
   body('name').optional().isLength({max: 60}).withMessage('ユーザー名は60文字以内で入力してください'),
   
@@ -30,5 +30,3 @@ const updateUserValidation = [
   body('gender').optional().notEmpty().withMessage('性別を選択してください'),
   body('gender').optional().isIn(['male', 'female', 'other']).withMessage('無効ではない性別を選択してください'),
 ];
-
-export { basicUserValidation, updateUserValidation };

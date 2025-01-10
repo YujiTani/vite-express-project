@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { ApiController } from "@/server/types/common/index.ts";
 
-const requestErrorHandler = (controller: ApiController) =>{
+export const requestErrorHandler = (controller: ApiController) =>{
   return async (req: Request, res: Response) => {
     try {
       return await controller(req, res);
@@ -11,5 +11,3 @@ const requestErrorHandler = (controller: ApiController) =>{
     }
   }
 }
-
-export { requestErrorHandler };

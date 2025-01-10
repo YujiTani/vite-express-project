@@ -9,11 +9,11 @@ let users: User[] = [
   { id: 2, name: "Jane Doe", email: "jane.doe@example.com", age: 21, gender: "female" },
 ];
 
-const getUsers: ApiController = async (req: Request, res: Response) => {
+export const getUsers: ApiController = async (req: Request, res: Response) => {
   return res.json(users);
 }
 
-const getUserById: ApiController = async (req: Request, res: Response) => {
+export const getUserById: ApiController = async (req: Request, res: Response) => {
   const user = users.find((user) => user.id === Number(req.params.id));
 
   if (!user) {
@@ -23,7 +23,7 @@ const getUserById: ApiController = async (req: Request, res: Response) => {
   return res.json(user);
 }
 
-const registerUser: ApiController = async (req: Request, res: Response) => {
+export const registerUser: ApiController = async (req: Request, res: Response) => {
   const newUser: User = {
     id: users.length + 1,
     name: req.body.name,
@@ -36,7 +36,7 @@ const registerUser: ApiController = async (req: Request, res: Response) => {
   return res.status(201).json(newUser);
 }
 
-const updateUserName: ApiController = async (req: Request, res: Response) => {
+export const updateUserName: ApiController = async (req: Request, res: Response) => {
   const user = users.find((user) => user.id === Number(req.params.id));
 
   if (!user) {
@@ -47,7 +47,7 @@ const updateUserName: ApiController = async (req: Request, res: Response) => {
   return res.json(user);
 }
 
-const updateUser: ApiController = async (req: Request, res: Response) => {
+export const updateUser: ApiController = async (req: Request, res: Response) => {
   const user = users.find((user) => user.id === Number(req.params.id));
 
   if (!user) {
@@ -73,7 +73,7 @@ const updateUser: ApiController = async (req: Request, res: Response) => {
   return res.json(newUser);
 }
 
-const deleteUser: ApiController = async (req: Request, res: Response) => {
+export const deleteUser: ApiController = async (req: Request, res: Response) => {
   const user = users.find((user) => user.id === Number(req.params.id));
 
   if (!user) {
@@ -83,5 +83,3 @@ const deleteUser: ApiController = async (req: Request, res: Response) => {
   users = users.filter((user) => user.id !== Number(req.params.id));
   return res.json(user);
 }
-
-export { getUsers, getUserById, registerUser, updateUser, updateUserName, deleteUser };
