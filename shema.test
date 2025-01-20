@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  age       Int
+  gender    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+}
+
+model Quest {
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique @default(uuid())
+  name        String
+  description String?
+  state       Int      @default(0) @db.SmallInt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  courses     Course[]
+  @@index([state])
+  @@index([uuid])
+}
+
+model Course {
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique @default(uuid())
+  quest       Quest?   @relation(fields: [questId], references: [uuid], onDelete: SetNull, onUpdate: Cascade)
+  questId     String?
+  name        String
+  description String?
+  difficulty  Int      @default(0) @db.SmallInt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  stages      Stage[]
+  @@index([uuid])
+  @@index([questId])
+  @@index([difficulty])
+}
+
+model Stage {
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique @default(uuid())
+  course      Course?  @relation(fields: [courseId], references: [uuid], onDelete: SetNull, onUpdate: Cascade)
+  courseId    String?
+  prefix      String   @unique
+  overview    String?
+  target      String?
+  state       Int      @default(0) @db.SmallInt
+  failedCase  Int      @default(0) @db.SmallInt
+  completeCase Int      @default(0) @db.SmallInt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  questions   Question[]
+  @@index([uuid])
+  @@index([courseId])
+  @@index([prefix])
+  @@index([state])
+}
+
+model Question {
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique @default(uuid())
+  stage       Stage?   @relation(fields: [stageId], references: [uuid], onDelete: SetNull, onUpdate: Cascade)
+  stageId     String?
+  name       String
+  answer      String
+  explanation String?
+  body        String
+  category    Int      @default(0) @db.SmallInt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  falseAnswers FalseAnswer[]
+  words       Word[]
+  @@index([uuid])
+  @@index([stageId])
+}
+
+model Word {
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique @default(uuid())
+  question    Question?  @relation(fields: [questionId], references: [uuid], onDelete: Cascade, onUpdate: Cascade)
+  questionId  String?
+  name       String
+  synonyms   String
+  orderIndex Int      @default(0) @db.SmallInt
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  deletedAt  DateTime?
+  @@index([uuid])
+  @@index([questionId])
+  @@index([name])
+}
+
+model FalseAnswer {
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique @default(uuid())
+  question    Question?  @relation(fields: [questionId], references: [uuid], onDelete: Cascade, onUpdate: Cascade)
+  questionId  String?
+  answer      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  @@index([uuid])
+  @@index([questionId])
+}
