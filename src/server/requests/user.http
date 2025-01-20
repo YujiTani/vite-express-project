@@ -8,10 +8,13 @@
 # 参考
 # https://github.com/Huachao/vscode-restclient
 
-###
+### ユーザー一覧を取得
 GET http://localhost:3005/api/users
 
-### 
+### ユーザーを取得
+GET http://localhost:3005/api/users/3
+
+### ユーザーを作成
 POST http://localhost:3005/api/users
 content-type: application/json
 
@@ -30,7 +33,7 @@ content-type: application/json
 #   "gender": ""
 # }
 
-### 
+### ユーザーを更新
 PUT http://localhost:3005/api/users/1
 content-type: application/json
 
@@ -41,7 +44,7 @@ content-type: application/json
   "gender": "male"
 }
 
-### 
+### ユーザーを削除
 PATCH http://localhost:3005/api/users/1
 content-type: application/json
 

@@ -9,8 +9,135 @@ datasource db {
 
 model User {
   id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  age       Int
-  gender    String
+  name      String   @db.VarChar(60)
+  email     String   @unique @db.VarChar(255)
+  age       Int      @db.SmallInt
+  gender    String   @db.VarChar(20)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  posts Post[]
+  @@map("users")
+}
+
+model Post {
+  id Int @id @default(autoincrement())
+  title String @db.VarChar(255)
+  content String?
+  published Boolean @default(false)
+  authorId Int
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@map("posts")
+}
+
+model Quest {
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique @default(uuid())
+  name        String
+  description String?
+  state       Int      @default(0) @db.SmallInt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  courses     Course[]
+  @@map("quests")
+
+  @@index([state])
+  @@index([uuid])
+}
+
+model Course {
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique @default(uuid())
+  quest       Quest?   @relation(fields: [questId], references: [uuid], onDelete: SetNull, onUpdate: Cascade)
+  questId     String?
+  name        String
+  description String?
+  difficulty  Int      @default(0) @db.SmallInt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  stages      Stage[]
+  @@map("courses")
+
+  @@index([uuid])
+  @@index([questId])
+  @@index([difficulty])
+}
+
+model Stage {
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique @default(uuid())
+  course      Course?  @relation(fields: [courseId], references: [uuid], onDelete: SetNull, onUpdate: Cascade)
+  courseId    String?
+  prefix      String   @unique
+  overview    String?
+  target      String?
+  state       Int      @default(0) @db.SmallInt
+  failedCase  Int      @default(0) @db.SmallInt
+  completeCase Int      @default(0) @db.SmallInt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  questions   Question[]
+  @@map("stages")
+
+  @@index([uuid])
+  @@index([courseId])
+  @@index([prefix])
+  @@index([state])
+}
+
+model Question {
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique @default(uuid())
+  stage       Stage?   @relation(fields: [stageId], references: [uuid], onDelete: SetNull, onUpdate: Cascade)
+  stageId     String?
+  name       String
+  answer      String
+  explanation String?
+  body        String
+  category    Int      @default(0) @db.SmallInt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  falseAnswers FalseAnswer[]
+  words       Word[]
+  @@map("questions")
+
+  @@index([uuid])
+  @@index([stageId])
+}
+
+model Word {
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique @default(uuid())
+  question    Question?  @relation(fields: [questionId], references: [uuid], onDelete: Cascade, onUpdate: Cascade)
+  questionId  String?
+  name       String
+  synonyms   String
+  orderIndex Int      @default(0) @db.SmallInt
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  deletedAt  DateTime?
+  @@map("words")
+
+  @@index([uuid])
+  @@index([questionId])
+  @@index([name])
+}
+
+model FalseAnswer {
+  id          Int      @id @default(autoincrement())
+  uuid        String   @unique @default(uuid())
+  question    Question?  @relation(fields: [questionId], references: [uuid], onDelete: Cascade, onUpdate: Cascade)
+  questionId  String?
+  answer      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime?
+  @@map("false_answers")
+
+  @@index([uuid])
+  @@index([questionId])
 }
