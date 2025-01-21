@@ -4,7 +4,7 @@ import { validateRequest } from "@/server/validators/helper.ts";
 import { validateId } from "@/server/validators/common/index.ts";
 import { basicUserValidation, updateUserValidation } from "@/server/validators/users/index.ts";
 import { requestErrorHandler } from "@/server/controllers/helper.ts";
-import { deleteUser, getUserById, getUsers, registerUser, updateUser, updateUserName } from "@/server/controllers/users/index.ts";
+import { getUserById, getUsers, registerUser, updateUser, updateUserName, trashUser, destroyUser, restoreUser } from "@/server/controllers/users/index.ts";
 
 const router = express.Router();
 
@@ -14,6 +14,8 @@ router.get('/:id', [...validateId, validateRequest], requestErrorHandler(getUser
 router.post('/', [...basicUserValidation, validateRequest], requestErrorHandler(registerUser));
 router.put('/:id', [...validateId, ...updateUserValidation, validateRequest], requestErrorHandler(updateUser));
 router.patch('/:id', [...validateId, ...updateUserValidation, validateRequest], requestErrorHandler(updateUserName));
-router.delete('/:id', [...validateId, validateRequest], requestErrorHandler(deleteUser));
+router.patch('/:id/trash', [...validateId, validateRequest], requestErrorHandler(trashUser));
+router.patch('/:id/restore', [...validateId, validateRequest], requestErrorHandler(restoreUser));
+router.delete('/:id', [...validateId, validateRequest], requestErrorHandler(destroyUser));
 
 export default router;
