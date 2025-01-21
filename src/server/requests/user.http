@@ -12,17 +12,17 @@
 GET http://localhost:3005/api/users
 
 ### ユーザーを取得
-GET http://localhost:3005/api/users/3
+GET http://localhost:3005/api/users/1
 
 ### ユーザーを作成
 POST http://localhost:3005/api/users
 content-type: application/json
 
 {
-  "name": "Yuji Tani",
-  "email": "yuji.tani@example.com",
-  "age": 30,
-  "gender": "male"
+  "name": "tomato_queen",
+  "email": "tomato_queen@example.com",
+  "age": 5,
+  "gender": "female"
 }
 
 # バリデーションチェック用
@@ -37,20 +37,29 @@ content-type: application/json
 PUT http://localhost:3005/api/users/1
 content-type: application/json
 
-{
-  "name": "Tarou Tanaka",
-  "email": "tarou.tanaka@example.com",
-  "age": 18,
-  "gender": "male"
-}
+# {
+#   "name": "Tarou Tanaka",
+#   "email": "tarou.tanaka@example.com",
+#   "age": 18,
+#   "gender": "male"
+# }
 
-### ユーザーを削除
-PATCH http://localhost:3005/api/users/1
+# バリデーションチェック用
+# {
+#   "name": "",
+#   "email": "",
+#   "age": 0,
+#   "gender": ""
+# }
+
+### ユーザーの削除フラグをたてる
+PATCH http://localhost:3005/api/users/3/trash
 content-type: application/json
 
-{
-  "name": "Hanako Yamada"
-}
+### ユーザーの削除フラグを解除
+PATCH http://localhost:3005/api/users/6/restore
+content-type: application/json
 
-### delete
-DELETE http://localhost:3005/api/users/1
+### ユーザーを完全削除
+DELETE http://localhost:3005/api/users/6
+content-type: application/json
