@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
+import { Prisma, PrismaClient, Role } from "@prisma/client";
 
 import { User } from "@/server/types/controller/users.ts";
 import { ApiController } from "@/server/types/common/index.ts";
-import { Prisma, PrismaClient, Role } from "@prisma/client";
 import { handlePrismaError, logQuery } from "../helper.ts";
 
 const prisma = new PrismaClient({
