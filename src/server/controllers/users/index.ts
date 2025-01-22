@@ -69,13 +69,7 @@ export const getUserById: ApiController = async (req: Request, res: Response) =>
 export const registerUser: ApiController = async (req: Request, res: Response) => {
   try {
     const newUser = await prisma.user.create({
-      data: {
-        name: req.body.name,
-        email: req.body.email,
-        age: req.body.age,
-        gender: req.body.gender,
-        role: req.body.role
-      }
+      data: req.body as Prisma.UserCreateInput
     })
     return res.status(201).json(newUser);
   } catch (error) {
@@ -111,13 +105,7 @@ export const updateUser: ApiController = async (req: Request, res: Response) => 
   try {
     const updatedUser = await prisma.user.update({
       where: {id: Number(req.params.id)},
-      data: {
-        name: req.body.name,
-        email: req.body.email,
-        age: req.body.age,
-        gender: req.body.gender,
-        role: req.body.role
-      }
+      data: req.body as Prisma.UserUpdateInput
     })
     return res.json(updatedUser);
   } catch (error) {
