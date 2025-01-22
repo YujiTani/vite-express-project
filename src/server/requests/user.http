@@ -65,3 +65,27 @@ content-type: application/json
 ### ユーザーを完全削除
 DELETE http://localhost:3005/api/users/6
 content-type: application/json
+
+### ユーザー作成時に投稿を作成
+POST http://localhost:3005/api/users/with-posts
+content-type: application/json
+
+{
+  "name": "牛丸",
+  "email": "usimaru@example.com",
+  "age": 10,
+  "gender": "male",
+  "role": "ADMIN",
+  "posts": [
+    {
+      "title": "Hello World",
+      "content": "This is my first post",
+      "published": true
+    },
+    {
+      "title": "Hello World 2",
+      "content": "This is my second post",
+      "published": false
+    }
+  ]
+}

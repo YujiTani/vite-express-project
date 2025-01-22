@@ -1,9 +1,4 @@
-type User = {
-  id: number;
-  name: string;
-  email: string;
-  age: number;
-  gender: string;
-}
+import { User } from "@prisma/client";
 
-export type { User };
+export type CreateUserRequest = Omit<User, "id" | "createdAt" | "updatedAt" | "deletedAt">;
+export type UpdateUserRequest = Partial<CreateUserRequest>;

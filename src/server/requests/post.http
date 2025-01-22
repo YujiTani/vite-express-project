@@ -1,0 +1,29 @@
+### Create a new post
+POST http://localhost:3005/api/posts
+Content-Type: application/json
+
+{
+  "title": "Sample Post Title",
+  "content": "This is a sample post content.",
+  "published": true,
+  "authorId": 1
+}
+
+### Get all posts
+GET http://localhost:3005/api/posts
+
+### Get a specific post by ID
+GET http://localhost:3005/api/posts/1
+
+### Update a post
+PUT http://localhost:3005/api/posts/1
+Content-Type: application/json
+
+{
+  "title": "Updated Post Title",
+  "content": "Updated content.",
+  "published": false
+}
+
+### Delete a post
+DELETE http://localhost:3005/api/posts/1

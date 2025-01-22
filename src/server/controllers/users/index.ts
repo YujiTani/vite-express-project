@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { Prisma, PrismaClient, Role } from "@prisma/client";
 
-import { User } from "@/server/types/controller/users.ts";
 import { ApiController } from "@/server/types/common/index.ts";
 import { handlePrismaError, logQuery } from "../helper.ts";
+import { CreateUserRequest } from "@/server/types/controller/users.ts";
+import { CreatePostRequest } from "@/server/types/controller/posts.ts";
 
 const prisma = new PrismaClient({
   // ログを出力する
@@ -174,5 +175,42 @@ export const destroyUser: ApiController = async (req: Request, res: Response) =>
     return res.json(deletedUser);
   } catch (error) {
     return handlePrismaError(error, res);
+  }
+}
+
+
+type CreateUserWithPostRequest = CreateUserRequest & {
+  posts: CreatePostRequest[]
+}
+
+/**
+ * ユーザー作成時に投稿を作成する
+ * @param req リクエスト
+ * @param res レスポンス
+ * @returns 作成されたユーザー,作成された投稿
+ */
+export const createUserWithPost: ApiController = async (req: Request, res: Response) => {
+  try {
+    const requestData: CreateUserWithPostRequest = req.body;
+    const user = await prisma.user.create({
+      data: {
+        name: requestData.name,
+        email: requestData.email,
+        age: requestData.age,
+        gender: requestData.gender,
+        role: requestData.role,
+        posts: {
+          create: requestData.posts.map((post) => ({
+            title: post.title,
+            content: post.content,
+            published: post.published
+          }))
+        }
+      }
+    })
+
+    return res.status(201).json({user})
+  } catch (error) {
+    return handlePrismaError(error, res)
   }
 }
