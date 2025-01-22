@@ -62,7 +62,7 @@ export const getPostById: ApiController = async (req: Request, res: Response) =>
 export const createPost: ApiController = async (req: Request, res: Response) => {
     try {
         const post = await prisma.post.create({
-            data: req.body as CreatePostRequest
+            data: req.body as Prisma.PostCreateInput
         })
         return res.status(201).json(post)
     } catch (error) {
@@ -82,7 +82,7 @@ export const updatePost: ApiController = async (req: Request, res: Response) => 
             where: {
                 id: Number(req.params.id)
             },
-            data: req.body as UpdatePostRequest
+            data: req.body as Prisma.PostUpdateInput
         })
         return res.json(post)
     } catch (error) {
