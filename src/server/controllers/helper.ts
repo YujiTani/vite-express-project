@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
+import { Prisma } from "@prisma/client";
 
 import { ApiController } from "@/server/types/common/index.ts";
-import { Prisma } from "@prisma/client";
 
 export const requestErrorHandler = (controller: ApiController) =>{
   return async (req: Request, res: Response) => {
@@ -77,7 +77,7 @@ export const handlePrismaError = (error: any, res: Response) => {
  * SQLクエリをログ出力する
  * @param e クエリイベント
  */
-export const logQuery = (e: { query: string; params: string; duration: number }) => {
+export const logQuery = (e: Prisma.QueryEvent) => {
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
   console.log('Query: ' + formatQuery(e.query))
   console.log('Params: ' + e.params)
