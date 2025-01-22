@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { User } from "@/server/types/controller/users.ts";
 import { ApiController } from "@/server/types/common/index.ts";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient, Role } from "@prisma/client";
 import { handlePrismaError, logQuery } from "../helper.ts";
 
 const prisma = new PrismaClient({
@@ -72,7 +72,8 @@ export const registerUser: ApiController = async (req: Request, res: Response) =
         name: req.body.name,
         email: req.body.email,
         age: req.body.age,
-        gender: req.body.gender
+        gender: req.body.gender,
+        role: req.body.role
       }
     })
     return res.status(201).json(newUser);
@@ -114,6 +115,7 @@ export const updateUser: ApiController = async (req: Request, res: Response) => 
         email: req.body.email,
         age: req.body.age,
         gender: req.body.gender,
+        role: req.body.role
       }
     })
     return res.json(updatedUser);

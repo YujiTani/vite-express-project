@@ -22,7 +22,8 @@ content-type: application/json
   "name": "tomato_queen",
   "email": "tomato_queen@example.com",
   "age": 5,
-  "gender": "female"
+  "gender": "female",
+  "role": "ADMIN"
 }
 
 # バリデーションチェック用
@@ -37,12 +38,13 @@ content-type: application/json
 PUT http://localhost:3005/api/users/1
 content-type: application/json
 
-# {
-#   "name": "Tarou Tanaka",
-#   "email": "tarou.tanaka@example.com",
-#   "age": 18,
-#   "gender": "male"
-# }
+{
+  "name": "Tarou Tanaka",
+  "email": "tarou.tanaka@example.com",
+  "age": 18,
+  "gender": "male",
+  "role": "ADMIN"
+}
 
 # バリデーションチェック用
 # {
