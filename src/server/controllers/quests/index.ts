@@ -95,3 +95,70 @@ export const updateQuestByUuid: ApiController = async (req: Request, res: Respon
         return handlePrismaError(error, res)
     }
 }
+
+/**
+ * クエストの削除フラグを立てる
+ * @param req リクエスト
+ * @param res レスポンス
+ * @returns 削除フラグを立てたクエスト
+ */
+export const trashQuestByUuid: ApiController = async (req: Request, res: Response) => {
+  try {
+    const trashedQuest = await prisma.quest.update({
+      where: {
+        uuid: String(req.params.uuid),
+        deletedAt: null,
+      },
+      data: {
+        deletedAt: new Date(),
+      },
+    })
+    return res.json(trashedQuest)
+  } catch (error) {
+    return handlePrismaError(error, res)
+  }
+}
+
+/**
+ * クエストの削除フラグを解除する
+ * @param req リクエスト
+ * @param res レスポンス
+ * @returns 削除フラグを解除したクエスト
+ */
+export const restoreQuestByUuid: ApiController = async (req: Request, res: Response) => {
+  try {
+    const restoredQuest = await prisma.quest.update({
+      where: {
+        uuid: String(req.params.uuid),
+        deletedAt: {
+          not: null,
+        },
+      },
+      data: {
+        deletedAt: null,
+      },
+    })
+    return res.json(restoredQuest)
+  } catch (error) {
+    return handlePrismaError(error, res)
+  }
+}    
+
+/**
+ * クエストを完全削除する
+ * @param req リクエスト
+ * @param res レスポンス
+ * @returns {void}
+ */
+export const destroyQuestByUuid: ApiController = async (req: Request, res: Response) => {
+  try {
+    const destroyedQuest = await prisma.quest.delete({
+      where: {
+        uuid: String(req.params.uuid),
+      },
+    })
+    return res.status(204).send()
+  } catch (error) {
+    return handlePrismaError(error, res)
+  }
+}

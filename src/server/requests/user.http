@@ -55,7 +55,7 @@ content-type: application/json
 # }
 
 ### ユーザーの削除フラグをたてる
-PATCH http://localhost:3005/api/users/3/trash
+DELETE http://localhost:3005/api/users/3/trash
 content-type: application/json
 
 ### ユーザーの削除フラグを解除

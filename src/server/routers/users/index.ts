@@ -15,7 +15,7 @@ router.get('/:id', [...validateId, validateRequest], requestErrorHandler(getUser
 router.post('/', [...basicUserValidation, validateRequest], requestErrorHandler(registerUser));
 router.put('/:id', [...validateId, ...updateUserValidation, validateRequest], requestErrorHandler(updateUser));
 router.patch('/:id', [...validateId, ...updateUserValidation, validateRequest], requestErrorHandler(updateUserName));
-router.patch('/:id/trash', [...validateId, validateRequest], requestErrorHandler(trashUser));
+router.delete('/:id/trash', [...validateId, validateRequest], requestErrorHandler(trashUser));
 router.patch('/:id/restore', [...validateId, validateRequest], requestErrorHandler(restoreUser));
 router.delete('/:id', [...validateId, validateRequest], requestErrorHandler(destroyUser));
 router.post('/with-posts', [...basicUserValidation, ...createUserWithPostValidation, validateRequest], requestErrorHandler(createUserWithPost));

@@ -29,3 +29,15 @@ Content-Type: application/json
     "name": "Updated Quest",
     "description": "This is an updated quest"
 }
+
+### Trash a quest by UUID
+DELETE http://localhost:3005/api/quests/019493b5-dd6d-76d9-aef0-0220668c8fe9/trash
+Content-Type: application/json
+
+### Restore a trashed quest by UUID
+PUT http://localhost:3005/api/quests/019493b5-dd6d-76d9-aef0-0220668c8fe9/restore
+Content-Type: application/json
+
+### Permanently delete a quest by UUID
+DELETE http://localhost:3005/api/quests/019493b8-28fc-7759-8e9d-f667d346f5f5
+Content-Type: application/json
