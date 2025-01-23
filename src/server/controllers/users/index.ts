@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Prisma, PrismaClient, Role } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 import { ApiController } from "@/server/types/common/index.ts";
 import { handlePrismaError, logQuery } from "../helper.ts";

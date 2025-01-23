@@ -1,0 +1,31 @@
+### Create a new quest
+POST http://localhost:3005/api/quests
+Content-Type: application/json
+
+{
+    "name": "Sample Quest3",
+    "description": "This is a sample quest"
+}
+
+# バリデーションチェック用
+# {
+#     "name": "",
+#     "description": "",
+# }
+
+### Get all quests
+GET http://localhost:3005/api/quests
+Content-Type: application/json
+
+### Get a specific quest by ID
+GET http://localhost:3005/api/quests/1
+Content-Type: application/json
+
+### Update a quest by UUID
+PUT http://localhost:3005/api/quests/019493b5-dd6d-76d9-aef0-0220668c8fe9
+Content-Type: application/json
+
+{
+    "name": "Updated Quest",
+    "description": "This is an updated quest"
+}
