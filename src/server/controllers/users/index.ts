@@ -3,8 +3,6 @@ import { Prisma, PrismaClient, Role } from "@prisma/client";
 
 import { ApiController } from "@/server/types/common/index.ts";
 import { handlePrismaError, logQuery } from "../helper.ts";
-import { CreateUserRequest } from "@/server/types/controller/users.ts";
-import { CreatePostRequest } from "@/server/types/controller/posts.ts";
 
 const prisma = new PrismaClient({
   // ログを出力する
@@ -167,9 +165,6 @@ export const destroyUser: ApiController = async (req: Request, res: Response) =>
 }
 
 
-type CreateUserWithPostRequest = CreateUserRequest & {
-  posts: CreatePostRequest[]
-}
 
 /**
  * ユーザー作成時に投稿を作成する
@@ -179,16 +174,15 @@ type CreateUserWithPostRequest = CreateUserRequest & {
  */
 export const createUserWithPost: ApiController = async (req: Request, res: Response) => {
   try {
-    const requestData: CreateUserWithPostRequest = req.body;
     const user = await prisma.user.create({
       data: {
-        name: requestData.name,
-        email: requestData.email,
-        age: requestData.age,
-        gender: requestData.gender,
-        role: requestData.role,
+        name: req.body.name,
+        email: req.body.email,
+        age: req.body.age,
+        gender: req.body.gender,
+        role: req.body.role,
         posts: {
-          create: requestData.posts.map((post) => ({
+          create: req.body.posts.map((post: Prisma.PostCreateInput) => ({
             title: post.title,
             content: post.content,
             published: post.published
