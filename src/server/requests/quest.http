@@ -3,8 +3,8 @@ POST http://localhost:3005/api/quests
 Content-Type: application/json
 
 {
-    "name": "Sample Quest3",
-    "description": "This is a sample quest"
+    "name": "Sample Quest5",
+    "description": "This is a sample quest5"
 }
 
 # バリデーションチェック用
@@ -22,7 +22,7 @@ GET http://localhost:3005/api/quests/1
 Content-Type: application/json
 
 ### Update a quest by UUID
-PUT http://localhost:3005/api/quests/019493b5-dd6d-76d9-aef0-0220668c8fe9
+PUT http://localhost:3005/api/quests/019498bf-97ea-76a4-aefd-46e8a099f849
 Content-Type: application/json
 
 {
@@ -31,13 +31,13 @@ Content-Type: application/json
 }
 
 ### Trash a quest by UUID
-DELETE http://localhost:3005/api/quests/019493b5-dd6d-76d9-aef0-0220668c8fe9/trash
+DELETE http://localhost:3005/api/quests/019498bf-97ea-76a4-aefd-46e8a099f849/trash
 Content-Type: application/json
 
 ### Restore a trashed quest by UUID
-PUT http://localhost:3005/api/quests/019493b5-dd6d-76d9-aef0-0220668c8fe9/restore
+PUT http://localhost:3005/api/quests/019498bf-97ea-76a4-aefd-46e8a099f849/restore
 Content-Type: application/json
 
 ### Permanently delete a quest by UUID
-DELETE http://localhost:3005/api/quests/019493b8-28fc-7759-8e9d-f667d346f5f5
+DELETE http://localhost:3005/api/quests/019498bf-97ea-76a4-aefd-46e8a099f849
 Content-Type: application/json
