@@ -13,6 +13,88 @@ prisma.$on('query', (event) => {
   logQuery(event)
 });
 
+/**
+ * コース一覧を取得
+ * @param req リクエスト
+ * @param res レスポンス
+ * @returns コース一覧
+ */
+export const getCourses = async (req: Request, res: Response) => {
+    try {
+        const limit = req.body.limit || 50
+        const offset = req.body.offset || 0
+        const courses = await prisma.course.findMany({
+            where: {
+                deletedAt: null,
+            },
+            orderBy: {
+                id: 'asc',
+            },
+            take: limit,
+            skip: offset,
+        })
+
+        const response = {
+            response_id: uuidv7(),
+            courses: courses.map((course) => ({
+                uuid: course.uuid,
+                name: course.name,
+                description: course.description,
+                difficulty: course.difficulty,
+            })),
+            count: courses.length,
+            limit,
+            offset,
+        }
+
+        return res.json(response)
+    } catch (error) {
+        return handlePrismaError(error, res)
+    }
+}
+
+/**
+ * 指定のクエストに紐づくコース一覧を取得
+ * @param req リクエスト
+ * @param res レスポンス
+ * @returns コース一覧
+ */
+// TODO: 作成中
+export const getCoursesByQuestUuid = async (req: Request, res: Response) => {
+  try {
+    const limit = req.body.limit || 50
+    const offset = req.body.offset || 0
+    
+    const courses = await prisma.course.findMany({
+      where: {
+        deletedAt: null,
+      },
+      orderBy: {
+        id: 'asc',
+      },
+      take: limit,
+      skip: offset,
+    })
+
+    const response = {
+      response_id: uuidv7(),
+      courses: courses.map((course) => ({
+        uuid: course.uuid,
+        name: course.name,
+        description: course.description,
+        difficulty: course.difficulty,
+      })),
+      count: courses.length,
+      limit,
+      offset,
+    }
+    
+    return res.json(response)
+  } catch (error) {
+    return handlePrismaError(error, res)
+    
+  }
+}
 
 /**
  * コースを作成
