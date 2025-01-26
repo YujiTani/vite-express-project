@@ -133,6 +133,7 @@ export const updateQuestByUuid: ApiController = async (req: Request, res: Respon
       const updatedQuest = await prisma.quest.update({
           where: {
               uuid: String(req.params.uuid),
+              deletedAt: null,
           },
           data: req.body as Prisma.QuestUpdateInput,
       })
@@ -205,6 +206,7 @@ export const restoreQuestByUuid: ApiController = async (req: Request, res: Respo
 
 /**
  * クエストを完全削除する
+ * 完全削除は、削除フラグが立っているレコードのみ対象とする
  * @param req リクエスト
  * @param res レスポンス
  * @returns {void}
@@ -214,6 +216,9 @@ export const destroyQuestByUuid: ApiController = async (req: Request, res: Respo
     await prisma.quest.delete({
       where: {
         uuid: String(req.params.uuid),
+        deletedAt: {
+          not: null,
+        }
       },
     })
 

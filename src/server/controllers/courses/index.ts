@@ -138,7 +138,7 @@ export const restoreCourseByUuid = async (req: Request, res: Response) => {
 
 /**
  * コースを完全削除する
- * 完全削除は、削除フラグが立っているコースのみ対象とする
+ * 完全削除は、削除フラグが立っているレコードのみ対象とする
  * @param req リクエスト
  * @param res レスポンス
  * @returns {void}
