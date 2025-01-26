@@ -1,4 +1,4 @@
-import { Request, response, Response } from 'express'
+import { Request, Response } from 'express'
 import { Prisma, PrismaClient } from '@prisma/client'
 import { v7 as uuidv7 } from 'uuid'
 
@@ -34,7 +34,6 @@ export const getQuests: ApiController = async (req: Request, res: Response) => {
 
     const response = {
       response_id: uuidv7(),
-      ok: true,
       quests: quests.map((quest) => ({
         uuid: quest.uuid,
         name: quest.name,
@@ -67,13 +66,21 @@ export const getQuestById: ApiController = async (req: Request, res: Response) =
         }
       })
 
+      if (!quest) {
+        return res.status(404).json({
+            response_id: uuidv7(), 
+            message: 'リソースが見つかりません' 
+        });
+      }
+
       const response = {
         response_id: uuidv7(),
-        ok: true,
+        quest: {
         uuid: quest?.uuid,
         name: quest?.name,
         description: quest?.description,
         state: quest?.state,
+        },
       }
 
       return res.json(response)
@@ -100,11 +107,12 @@ export const createQuest: ApiController = async (req: Request, res: Response) =>
 
     const response = {
       response_id: uuidv7(),
-      ok: true,
-      uuid: newQuest.uuid,
-      name: newQuest.name,
-      description: newQuest.description,
-      state: newQuest.state,
+      quest: {
+        uuid: newQuest.uuid,
+        name: newQuest.name,
+        description: newQuest.description,
+        state: newQuest.state,
+      }
     }
 
     return res.status(201).json(response)
@@ -130,11 +138,12 @@ export const updateQuestByUuid: ApiController = async (req: Request, res: Respon
 
       const response = {
         response_id: uuidv7(),
-        ok: true,
-        uuid: updatedQuest.uuid,
-        name: updatedQuest.name,
-        description: updatedQuest.description,
-        state: updatedQuest.state,
+        quest: {
+          uuid: updatedQuest.uuid,
+          name: updatedQuest.name,
+          description: updatedQuest.description,
+          state: updatedQuest.state,
+        },
       }
 
       return res.json(response)
