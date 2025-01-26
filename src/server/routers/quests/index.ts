@@ -1,8 +1,9 @@
+import express from "express";
+
 import { requestErrorHandler } from "@/server/controllers/helper.ts";
 import { createQuest, destroyQuestByUuid, getQuestById, getQuests, restoreQuestByUuid, trashQuestByUuid, updateQuestByUuid } from "@/server/controllers/quests/index.ts";
 import { validateRequest } from "@/server/validators/helper.ts";
 import { basicQuestValidation } from "@/server/validators/quests/indext.ts";
-import express from "express";
 
 const router = express.Router();
 
