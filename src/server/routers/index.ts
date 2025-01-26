@@ -8,5 +8,6 @@ const apiRouter = express.Router();
 apiRouter.use('/users', usersRouter);
 apiRouter.use('/posts', postsRouter);
 apiRouter.use('/quests', questsRouter);
+apiRouter.use('/courses', questsRouter);
 
 export { apiRouter };
