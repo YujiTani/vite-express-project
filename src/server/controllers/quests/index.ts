@@ -41,7 +41,7 @@ export const getQuests: ApiController = async (req: Request, res: Response) => {
         description: quest.description,
         state: quest.state,
       })),
-      total: quests.length,
+      count: quests.length,
       limit,
       offset,
     }
