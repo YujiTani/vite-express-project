@@ -97,6 +97,38 @@ export const getCoursesByQuestUuid = async (req: Request, res: Response) => {
 }
 
 /**
+ * 指定のコースを取得
+ * @param req リクエスト
+ * @param res レスポンス
+ * @returns コース
+ */
+export const getCourseByUuid = async (req: Request, res: Response) => {
+  try {
+    const course = await prisma.course.findUnique({
+      where: {
+        uuid: String(req.params.uuid),
+        deletedAt: null,
+      },
+    }) as Prisma.CourseGetPayload<Prisma.CourseFindUniqueArgs>
+
+    const response = {
+      response_id: uuidv7(),
+      course: {
+        uuid: course.uuid,
+        name: course.name,
+        description: course.description,
+        difficulty: course.difficulty,
+        state: course.state,
+      },
+    }
+
+    return res.json(response)
+  } catch (error) {
+    return handlePrismaError(error, res)
+  }
+}
+
+/**
  * コースを作成
  * @param req リクエスト
  * @param res レスポンス
@@ -109,7 +141,7 @@ export const createCourse = async (req: Request, res: Response) => {
             data: {
                 ...req.body,
                 uuid,
-            } as Prisma.CourseCreateInput,
+            }
         })
 
         if (!course) {

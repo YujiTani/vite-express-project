@@ -1,0 +1,42 @@
+### Create a new course
+POST http://localhost:3005/api/courses
+Content-Type: application/json
+
+{
+  "name": "Sample Course",
+  "description": "This is a sample course description.",
+  "difficulty": 1,
+}
+
+# バリデーションチェック用
+# {
+#     "name": "",
+#     "description": "",
+#     "difficulty": 1,
+# }
+
+### Get all courses
+GET http://localhost:3005/api/courses
+Content-Type: application/json
+
+### Update a course
+PUT http://localhost:3005/api/courses/course-uuid-here
+Content-Type: application/json
+
+{
+  "name": "Updated Course Name",
+  "description": "Updated course description",
+  "difficulty": 2,
+}
+
+### Delete a course
+DELETE http://localhost:3005/api/courses/course-uuid-here
+Content-Type: application/json
+
+### Trash a course (論理削除)
+PATCH http://localhost:3005/api/courses/course-uuid-here/trash
+Content-Type: application/json
+
+### Restore a course (論理削除から復元)
+PATCH http://localhost:3005/api/courses/course-uuid-here/restore
+Content-Type: application/json
