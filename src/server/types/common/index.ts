@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import type { Request, Response } from "express";
 
 type ApiController = (req: Request, res: Response) => Promise<Response>;
 
