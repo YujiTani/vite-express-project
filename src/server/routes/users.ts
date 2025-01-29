@@ -11,10 +11,10 @@ import {
 	trashUser,
 	updateUser,
 	updateUserName,
-} from "@/server/models/repositories/users/index.ts";
+} from "@/server/models/repositories/userRepository.ts";
 import { validateId } from "@/server/validators/common/index.ts";
 import { validateRequest } from "@/server/validators/helper.ts";
-import { basicPostValidation, createUserWithPostValidation } from "@/server/validators/posts/index.ts";
+import { createUserWithPostValidation } from "@/server/validators/posts/index.ts";
 import { basicUserValidation, updateUserValidation } from "@/server/validators/users/index.ts";
 
 const router = express.Router();
