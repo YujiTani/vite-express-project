@@ -1,6 +1,6 @@
 import express from "express";
 
-import { requestErrorHandler } from "@/server/controllers/helper.ts";
+import { requestErrorHandler } from "@/server/models/repositories/helper.ts";
 import {
 	createQuest,
 	destroyQuestByUuid,
@@ -9,7 +9,7 @@ import {
 	restoreQuestByUuid,
 	trashQuestByUuid,
 	updateQuestByUuid,
-} from "@/server/controllers/quests/index.ts";
+} from "@/server/models/repositories/questRepository.ts";
 import { validateRequest } from "@/server/validators/helper.ts";
 import { basicQuestValidation } from "@/server/validators/quests/indext.ts";
 

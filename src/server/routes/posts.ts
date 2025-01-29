@@ -1,7 +1,13 @@
 import express from "express";
 
-import { requestErrorHandler } from "@/server/controllers/helper.ts";
-import { createPost, deletePost, getPostById, getPosts, updatePost } from "@/server/controllers/posts/index.ts";
+import { requestErrorHandler } from "@/server/models/repositories/helper.ts";
+import {
+	createPost,
+	deletePost,
+	getPostById,
+	getPosts,
+	updatePost,
+} from "@/server/models/repositories/postRepository.ts";
 import { validateId } from "@/server/validators/common/index.ts";
 import { validateRequest } from "@/server/validators/helper.ts";
 import { basicPostValidation, updatePostValidation } from "@/server/validators/posts/index.ts";

@@ -1,7 +1,7 @@
 import express from "express";
 import ViteExpress from "vite-express";
 
-import { apiRouter } from "@/server/routers/index.ts";
+import { apiRouter } from "@/server/routes/index.ts";
 
 const app = express();
 

@@ -1,6 +1,6 @@
 import express from "express";
 
-import { requestErrorHandler } from "@/server/controllers/helper.ts";
+import { requestErrorHandler } from "@/server/models/repositories/helper.ts";
 import {
 	createUserWithPost,
 	destroyUser,
@@ -11,7 +11,7 @@ import {
 	trashUser,
 	updateUser,
 	updateUserName,
-} from "@/server/controllers/users/index.ts";
+} from "@/server/models/repositories/users/index.ts";
 import { validateId } from "@/server/validators/common/index.ts";
 import { validateRequest } from "@/server/validators/helper.ts";
 import { basicPostValidation, createUserWithPostValidation } from "@/server/validators/posts/index.ts";
