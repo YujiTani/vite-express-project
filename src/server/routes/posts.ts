@@ -1,5 +1,6 @@
 import express from "express";
 
+import { validateRequest } from "@/server/middlewares/validation.ts";
 import { requestErrorHandler } from "@/server/models/repositories/helper.ts";
 import {
 	createPost,
@@ -9,7 +10,6 @@ import {
 	updatePost,
 } from "@/server/models/repositories/postRepository.ts";
 import { validateId } from "@/server/validators/common/index.ts";
-import { validateRequest } from "@/server/validators/helper.ts";
 import { basicPostValidation, updatePostValidation } from "@/server/validators/posts/index.ts";
 
 const router = express.Router();

@@ -1,5 +1,6 @@
 import express from "express";
 
+import { validateRequest } from "@/server/middlewares/validation.ts";
 import { requestErrorHandler } from "@/server/models/repositories/helper.ts";
 import {
 	createQuest,
@@ -10,7 +11,6 @@ import {
 	trashQuestByUuid,
 	updateQuestByUuid,
 } from "@/server/models/repositories/questRepository.ts";
-import { validateRequest } from "@/server/validators/helper.ts";
 import { basicQuestValidation } from "@/server/validators/quests/indext.ts";
 
 const router = express.Router();

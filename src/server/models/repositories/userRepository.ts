@@ -13,14 +13,16 @@ prisma.$on("query", logQuery);
 
 /**
  * ユーザー一覧を取得する
+ * @param query 検索条件
  * @param limit 取得件数
  * @param offset 取得開始位置
  * @returns ユーザー一覧
  */
-export const findAll = async (limit: number, offset: number) => {
+export const findAll = async (query: Prisma.UserFindManyArgs, limit: number, offset: number) => {
 	return await prisma.user.findMany({
 		where: {
 			deletedAt: null,
+			...query,
 		},
 		orderBy: {
 			id: "asc",

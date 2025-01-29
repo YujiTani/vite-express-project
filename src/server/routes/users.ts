@@ -1,8 +1,8 @@
 import express from "express";
 
+import { validateRequest } from "@/server/middlewares/validation.ts";
 import { requestErrorHandler } from "@/server/models/repositories/helper.ts";
-import { validateId } from "@/server/validators/common/index.ts";
-import { validateRequest } from "@/server/validators/helper.ts";
+import { validateId, validateQuery } from "@/server/validators/common/index.ts";
 import { createUserWithPostValidation } from "@/server/validators/posts/index.ts";
 import { basicUserValidation, updateUserValidation } from "@/server/validators/users/index.ts";
 import * as userController from "../models/controllers/users.ts";
@@ -10,7 +10,7 @@ import * as userController from "../models/controllers/users.ts";
 const router = express.Router();
 
 // routerはpath,validator,controllerの3つを設定する
-router.get("/", requestErrorHandler(userController.getUsers));
+router.get("/", [...validateQuery, validateRequest], requestErrorHandler(userController.getUsers));
 router.get("/:id", [...validateId, validateRequest], requestErrorHandler(userController.getUserById));
 router.post("/", [...basicUserValidation, validateRequest], requestErrorHandler(userController.createUser));
 router.put(

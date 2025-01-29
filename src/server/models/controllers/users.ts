@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 
 import * as userUsecase from "@/server/models/usecases/users.ts";
+import type { RequestFind } from "@/server/types/common/index.ts";
 
 /**
  * GET /users
@@ -9,14 +10,12 @@ import * as userUsecase from "@/server/models/usecases/users.ts";
  * @param res レスポンス
  * @returns ユーザー一覧
  */
-export const getUsers = async (req: Request, res: Response): Promise<Response> => {
+export const getUsers = async (req: Partial<RequestFind>, res: Response): Promise<Response> => {
 	const request = {
-		limit: req.body.limit,
-		offset: req.body.offset,
-		...req.body,
+		query: req.query,
+		limit: Number(req.query?.limit),
+		offset: Number(req.query?.offset),
 	};
-
-	console.log(request);
 
 	return await userUsecase.getAll(request, res);
 };

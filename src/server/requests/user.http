@@ -10,17 +10,24 @@
 
 ### ユーザー一覧を取得
 GET http://localhost:3005/api/users
+content-type: application/json
+
+{
+  "limit": 10,
+  "offset": 0
+}
 
 ### ユーザーを取得
 GET http://localhost:3005/api/users/1
+content-type: application/json
 
 ### ユーザーを作成
 POST http://localhost:3005/api/users
 content-type: application/json
 
 {
-  "name": "tomato_queen",
-  "email": "tomato_queen@example.com",
+  "name": "tomato_queen2",
+  "email": "tomato_queen2@example.com",
   "age": 5,
   "gender": "female",
   "role": "ADMIN"

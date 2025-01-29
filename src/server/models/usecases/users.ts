@@ -3,7 +3,7 @@ import { v7 as uuidv7 } from "uuid";
 
 import { handlePrismaError } from "@/server/models/repositories/helper.ts";
 import * as userRepository from "@/server/models/repositories/userRepository.ts";
-import type { ApiController } from "@/server/types/common/index.ts";
+import type { ApiController, RequestFind } from "@/server/types/common/index.ts";
 
 /**
  * ユーザー一覧を取得する
@@ -11,12 +11,11 @@ import type { ApiController } from "@/server/types/common/index.ts";
  * @param res レスポンス
  * @returns ユーザー一覧
  */
-export const getAll: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const getAll: ApiController = async (req: RequestFind, res) => {
 	try {
-		const limit = req.body.limit || 50;
-		const offset = req.body.offset || 0;
-
-		const users = await userRepository.findAll(limit, offset);
+		const limit = req.limit ?? 50;
+		const offset = req.offset ?? 0;
+		const users = await userRepository.findAll(req.query, limit, offset);
 
 		const response = {
 			response_id: uuidv7(),
@@ -45,7 +44,7 @@ export const getAll: ApiController = async (req: Request, res: Response): Promis
  * @param res レスポンス
  * @returns ユーザー
  */
-export const get: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const get: ApiController = async (req, res) => {
 	try {
 		const user = await userRepository.find(Number(req.params.id));
 
@@ -79,7 +78,7 @@ export const get: ApiController = async (req: Request, res: Response): Promise<R
  * @param res レスポンス
  * @returns ユーザー
  */
-export const create: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const create: ApiController = async (req, res) => {
 	try {
 		const createdUser = await userRepository.create(req.body);
 
@@ -107,7 +106,7 @@ export const create: ApiController = async (req: Request, res: Response): Promis
  * @param res レスポンス
  * @returns 更新したユーザー
  */
-export const update: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const update: ApiController = async (req, res) => {
 	try {
 		const updatedUser = await userRepository.update(Number(req.params.id), req.body);
 
@@ -142,7 +141,7 @@ export const update: ApiController = async (req: Request, res: Response): Promis
  * @param res レスポンス
  * @returns {void}
  */
-export const trash: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const trash: ApiController = async (req, res) => {
 	try {
 		const trashedUser = await userRepository.trash(Number(req.params.id));
 
@@ -165,7 +164,7 @@ export const trash: ApiController = async (req: Request, res: Response): Promise
  * @param res レスポンス
  * @returns {void}
  */
-export const restore: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const restore: ApiController = async (req, res) => {
 	try {
 		const restoredUser = await userRepository.restore(Number(req.params.id));
 
@@ -188,7 +187,7 @@ export const restore: ApiController = async (req: Request, res: Response): Promi
  * @param res レスポンス
  * @returns {void}
  */
-export const destroy: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const destroy: ApiController = async (req, res) => {
 	try {
 		const deletedUser = await userRepository.destroy(Number(req.params.id));
 
@@ -211,7 +210,7 @@ export const destroy: ApiController = async (req: Request, res: Response): Promi
  * @param res レスポンス
  * @returns 作成されたユーザー,作成された投稿
  */
-export const createWithPost: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const createWithPost: ApiController = async (req, res) => {
 	try {
 		const user = await userRepository.createWithPost(req.body);
 
