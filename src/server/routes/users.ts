@@ -1,37 +1,30 @@
 import express from "express";
 
 import { requestErrorHandler } from "@/server/models/repositories/helper.ts";
-import {
-	createUserWithPost,
-	destroyUser,
-	getUserById,
-	getUsers,
-	registerUser,
-	restoreUser,
-	trashUser,
-	updateUser,
-	updateUserName,
-} from "@/server/models/repositories/userRepository.ts";
 import { validateId } from "@/server/validators/common/index.ts";
 import { validateRequest } from "@/server/validators/helper.ts";
 import { createUserWithPostValidation } from "@/server/validators/posts/index.ts";
 import { basicUserValidation, updateUserValidation } from "@/server/validators/users/index.ts";
+import * as userController from "../models/controllers/users.ts";
 
 const router = express.Router();
 
 // routerはpath,validator,controllerの3つを設定する
-router.get("/", requestErrorHandler(getUsers));
-router.get("/:id", [...validateId, validateRequest], requestErrorHandler(getUserById));
-router.post("/", [...basicUserValidation, validateRequest], requestErrorHandler(registerUser));
-router.put("/:id", [...validateId, ...updateUserValidation, validateRequest], requestErrorHandler(updateUser));
-router.patch("/:id", [...validateId, ...updateUserValidation, validateRequest], requestErrorHandler(updateUserName));
-router.delete("/:id/trash", [...validateId, validateRequest], requestErrorHandler(trashUser));
-router.patch("/:id/restore", [...validateId, validateRequest], requestErrorHandler(restoreUser));
-router.delete("/:id", [...validateId, validateRequest], requestErrorHandler(destroyUser));
+router.get("/", requestErrorHandler(userController.getUsers));
+router.get("/:id", [...validateId, validateRequest], requestErrorHandler(userController.getUserById));
+router.post("/", [...basicUserValidation, validateRequest], requestErrorHandler(userController.createUser));
+router.put(
+	"/:id",
+	[...validateId, ...updateUserValidation, validateRequest],
+	requestErrorHandler(userController.updateUser),
+);
+router.delete("/:id/trash", [...validateId, validateRequest], requestErrorHandler(userController.trashUser));
+router.put("/:id/restore", [...validateId, validateRequest], requestErrorHandler(userController.restoreUser));
+router.delete("/:id", [...validateId, validateRequest], requestErrorHandler(userController.destroyUser));
 router.post(
 	"/with-posts",
 	[...basicUserValidation, ...createUserWithPostValidation, validateRequest],
-	requestErrorHandler(createUserWithPost),
+	requestErrorHandler(userController.createUserWithPost),
 );
 
 export default router;

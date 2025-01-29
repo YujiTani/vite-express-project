@@ -1,4 +1,3 @@
-import { Prisma, PrismaClient } from "@prisma/client";
 import type { Request, Response } from "express";
 import { v7 as uuidv7 } from "uuid";
 
@@ -12,7 +11,7 @@ import type { ApiController } from "@/server/types/common/index.ts";
  * @param res レスポンス
  * @returns ユーザー一覧
  */
-export const getUsers: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const getAll: ApiController = async (req: Request, res: Response): Promise<Response> => {
 	try {
 		const limit = req.body.limit || 50;
 		const offset = req.body.offset || 0;
@@ -46,7 +45,7 @@ export const getUsers: ApiController = async (req: Request, res: Response): Prom
  * @param res レスポンス
  * @returns ユーザー
  */
-export const getUser: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const get: ApiController = async (req: Request, res: Response): Promise<Response> => {
 	try {
 		const user = await userRepository.find(Number(req.params.id));
 
@@ -80,7 +79,7 @@ export const getUser: ApiController = async (req: Request, res: Response): Promi
  * @param res レスポンス
  * @returns ユーザー
  */
-export const registerUser: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const create: ApiController = async (req: Request, res: Response): Promise<Response> => {
 	try {
 		const createdUser = await userRepository.create(req.body);
 
@@ -108,7 +107,7 @@ export const registerUser: ApiController = async (req: Request, res: Response): 
  * @param res レスポンス
  * @returns 更新したユーザー
  */
-export const updateUser: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const update: ApiController = async (req: Request, res: Response): Promise<Response> => {
 	try {
 		const updatedUser = await userRepository.update(Number(req.params.id), req.body);
 
@@ -143,7 +142,7 @@ export const updateUser: ApiController = async (req: Request, res: Response): Pr
  * @param res レスポンス
  * @returns {void}
  */
-export const trashUser: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const trash: ApiController = async (req: Request, res: Response): Promise<Response> => {
 	try {
 		const trashedUser = await userRepository.trash(Number(req.params.id));
 
@@ -166,7 +165,7 @@ export const trashUser: ApiController = async (req: Request, res: Response): Pro
  * @param res レスポンス
  * @returns {void}
  */
-export const restoreUser: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const restore: ApiController = async (req: Request, res: Response): Promise<Response> => {
 	try {
 		const restoredUser = await userRepository.restore(Number(req.params.id));
 
@@ -189,7 +188,7 @@ export const restoreUser: ApiController = async (req: Request, res: Response): P
  * @param res レスポンス
  * @returns {void}
  */
-export const destroyUser: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const destroy: ApiController = async (req: Request, res: Response): Promise<Response> => {
 	try {
 		const deletedUser = await userRepository.destroy(Number(req.params.id));
 
@@ -212,7 +211,7 @@ export const destroyUser: ApiController = async (req: Request, res: Response): P
  * @param res レスポンス
  * @returns 作成されたユーザー,作成された投稿
  */
-export const createUserWithPost: ApiController = async (req: Request, res: Response): Promise<Response> => {
+export const createWithPost: ApiController = async (req: Request, res: Response): Promise<Response> => {
 	try {
 		const user = await userRepository.createWithPost(req.body);
 
