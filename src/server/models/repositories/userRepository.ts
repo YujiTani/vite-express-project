@@ -1,15 +1,14 @@
 import { type Prisma, PrismaClient } from "@prisma/client";
 import type { Request, Response } from "express";
 
+import { handlePrismaError, logQuery } from "@/server/models/repositories/helper.ts";
 import type { ApiController } from "@/server/types/common/index.ts";
-import { handlePrismaError, logQuery } from "../helper.ts";
 
 const prisma = new PrismaClient({
-	// ログを出力する
 	log: ["query", "info", "warn", "error"],
 });
 
-// クエリイベントリスナーを追加
+// @ts-ignore
 prisma.$on("query", logQuery);
 
 /**

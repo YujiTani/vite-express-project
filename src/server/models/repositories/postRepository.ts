@@ -1,15 +1,15 @@
 import { type Prisma, PrismaClient } from "@prisma/client";
 import type { Request, Response } from "express";
 
+import { handlePrismaError, logQuery } from "@/server/models/repositories/helper.ts";
 import type { ApiController } from "@/server/types/common/index.ts";
-import { CreatePostRequest, UpdatePostRequest } from "@/server/types/controller/posts.ts";
-import { handlePrismaError, logQuery } from "../helper.ts";
 
 const prisma = new PrismaClient({
 	log: ["query", "info", "warn", "error"],
 });
 
-prisma.$on("query", logQuery as (e: Prisma.QueryEvent) => void);
+// @ts-ignore
+prisma.$on("query", logQuery);
 
 /**
  * 投稿一覧を取得する

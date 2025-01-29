@@ -2,16 +2,14 @@ import { type Prisma, PrismaClient } from "@prisma/client";
 import type { Request, Response } from "express";
 import { v7 as uuidv7 } from "uuid";
 
-import { handlePrismaError, logQuery } from "../helper.ts";
+import { handlePrismaError, logQuery } from "@/server/models/repositories/helper.ts";
 
 const prisma = new PrismaClient({
 	log: ["query", "info", "warn", "error"] as Prisma.LogLevel[],
 });
 
 // @ts-ignore
-prisma.$on("query", (event) => {
-	logQuery(event);
-});
+prisma.$on("query", logQuery);
 
 /**
  * コース一覧を取得

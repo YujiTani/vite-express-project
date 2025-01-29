@@ -3,7 +3,7 @@ import type { Request, Response } from "express";
 import { v7 as uuidv7 } from "uuid";
 
 import type { ApiController } from "@/server/types/common/index.ts";
-import { handlePrismaError, logQuery } from "../helper.ts";
+import { handlePrismaError, logQuery } from "./helper.ts";
 
 const prisma = new PrismaClient({
 	log: ["query", "info", "warn", "error"],
