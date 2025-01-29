@@ -13,180 +13,161 @@ prisma.$on("query", logQuery);
 
 /**
  * ユーザー一覧を取得する
- * @param req リクエスト
- * @param res レスポンス
+ * @param limit 取得件数
+ * @param offset 取得開始位置
  * @returns ユーザー一覧
  */
-export const getUsers: ApiController = async (req: Request, res: Response) => {
-	try {
-		const users = await prisma.user.findMany({
-			where: {
-				deletedAt: null,
-			},
-			orderBy: {
-				id: "asc",
-			},
-			take: 50,
-		});
-		return res.json(users);
-	} catch (error) {
-		return handlePrismaError(error, res);
-	}
+export const findAll = async (limit: number, offset: number) => {
+	return await prisma.user.findMany({
+		where: {
+			deletedAt: null,
+		},
+		orderBy: {
+			id: "asc",
+		},
+		take: limit,
+		skip: offset,
+	});
 };
 
 /**
  * ユーザーを取得する
- * @param req リクエスト
- * @param res レスポンス
+ * @param id ユーザーID
  * @returns ユーザー
  */
-export const getUserById: ApiController = async (req: Request, res: Response) => {
-	try {
-		const user = await prisma.user.findUnique({
-			where: {
-				id: Number(req.params.id),
-				deletedAt: null,
-			},
-		});
-		return res.json(user);
-	} catch (error) {
-		return handlePrismaError(error, res);
+export const find = async (id: number) => {
+	const user = await prisma.user.findUnique({
+		where: {
+			id,
+			deletedAt: null,
+		},
+	});
+
+	if (user === null) {
+		// 見つからなかった
+		return null;
 	}
+
+	return user;
 };
 
 /**
  * ユーザーを作成する
- * @param req リクエスト
- * @param res レスポンス
+ * @param data ユーザー作成データ
  * @returns ユーザー
  */
-export const registerUser: ApiController = async (req: Request, res: Response) => {
-	try {
-		const newUser = await prisma.user.create({
-			data: req.body as Prisma.UserCreateInput,
-		});
-		return res.status(201).json(newUser);
-	} catch (error) {
-		return handlePrismaError(error, res);
-	}
-};
-
-/**
- * ユーザーの名前を更新する
- * @param req リクエスト
- * @param res レスポンス
- * @returns 更新したユーザー
- */
-export const updateUserName: ApiController = async (req: Request, res: Response) => {
-	try {
-		const updatedUser = await prisma.user.update({
-			where: { id: Number(req.params.id) },
-			data: { name: req.body.name },
-		});
-		return res.json(updatedUser);
-	} catch (error) {
-		return handlePrismaError(error, res);
-	}
+export const create = async (data: Prisma.UserCreateInput) => {
+	return await prisma.user.create({
+		data,
+	});
 };
 
 /**
  * ユーザーを更新する
- * @param req リクエスト
- * @param res レスポンス
+ * @param id ユーザーID
+ * @param data ユーザー更新データ
  * @returns 更新したユーザー
  */
-export const updateUser: ApiController = async (req: Request, res: Response) => {
-	try {
-		const updatedUser = await prisma.user.update({
-			where: { id: Number(req.params.id) },
-			data: req.body as Prisma.UserUpdateInput,
-		});
-		return res.json(updatedUser);
-	} catch (error) {
-		return handlePrismaError(error, res);
+export const update = async (id: number, data: Prisma.UserUpdateInput) => {
+	const updatedUser = await prisma.user.update({
+		where: { id },
+		data: data,
+	});
+
+	if (!updatedUser) {
+		// 見つからなかった
+		return null;
 	}
+
+	return updatedUser;
 };
 
 /**
  * ユーザーの削除フラグをたてる
- * @param req リクエスト
- * @param res レスポンス
+ * @param id ユーザーID
  * @returns 削除フラグをたてたユーザー
  */
-export const trashUser: ApiController = async (req: Request, res: Response) => {
-	try {
-		const trashedUser = await prisma.user.update({
-			where: { id: Number(req.params.id) },
-			data: { deletedAt: new Date() },
-		});
-		return res.json(trashedUser);
-	} catch (error) {
-		return handlePrismaError(error, res);
+export const trash = async (id: number) => {
+	const trashedUser = await prisma.user.update({
+		where: { id },
+		data: { deletedAt: new Date() },
+	});
+
+	if (!trashedUser) {
+		// 見つからなかった
+		return null;
 	}
+
+	return trashedUser;
 };
 
 /**
  * ユーザーの削除フラグを解除する
- * @param req リクエスト
- * @param res レスポンス
+ * @param id ユーザーID
  * @returns 削除フラグを解除したユーザー
  */
-export const restoreUser: ApiController = async (req: Request, res: Response) => {
-	try {
-		const restoredUser = await prisma.user.update({
-			where: { id: Number(req.params.id) },
-			data: { deletedAt: null },
-		});
-		return res.json(restoredUser);
-	} catch (error) {
-		return handlePrismaError(error, res);
+export const restore = async (id: number) => {
+	const restoredUser = await prisma.user.update({
+		where: { id },
+		data: { deletedAt: null },
+	});
+
+	if (!restoredUser) {
+		// 見つからなかった
+		return null;
 	}
+
+	return restoredUser;
 };
 
 /**
  * ユーザーを完全削除する
- * @param req リクエスト
- * @param res レスポンス
+ * @param id ユーザーID
  * @returns 完全削除したユーザー
  */
-export const destroyUser: ApiController = async (req: Request, res: Response) => {
-	try {
-		const deletedUser = await prisma.user.delete({
-			where: { id: Number(req.params.id) },
-		});
-		return res.json(deletedUser);
-	} catch (error) {
-		return handlePrismaError(error, res);
+export const destroy = async (id: number) => {
+	const deletedUser = await prisma.user.delete({
+		where: { id },
+	});
+
+	if (!deletedUser) {
+		// 見つからなかった
+		return null;
 	}
+
+	return deletedUser;
 };
 
 /**
- * ユーザー作成時に投稿を作成する
- * @param req リクエスト
- * @param res レスポンス
- * @returns 作成されたユーザー,作成された投稿
+ * ユーザー作成時に投稿作成する
+ * @param data ユーザー作成データ
+ * @returns 作成されたユーザー
  */
-export const createUserWithPost: ApiController = async (req: Request, res: Response) => {
-	try {
-		const user = await prisma.user.create({
-			data: {
-				name: req.body.name,
-				email: req.body.email,
-				age: req.body.age,
-				gender: req.body.gender,
-				role: req.body.role,
-				posts: {
-					create: req.body.posts.map((post: Prisma.PostCreateInput) => ({
-						title: post.title,
-						content: post.content,
-						published: post.published,
-					})),
-				},
-			},
-		});
-
-		return res.status(201).json({ user });
-	} catch (error) {
-		return handlePrismaError(error, res);
+export const createWithPost = async (data: Prisma.UserCreateInput) => {
+	if (!data.posts) {
+		return null;
 	}
+
+	const user = await prisma.user.create({
+		data: {
+			name: data.name,
+			email: data.email,
+			age: data.age,
+			gender: data.gender,
+			role: data.role,
+			posts: {
+				create: (data.posts as Prisma.PostCreateInput[]).map((post) => ({
+					title: post.title,
+					content: post.content,
+					published: post.published,
+				})),
+			},
+		},
+	});
+
+	if (!user) {
+		return null;
+	}
+
+	return user;
 };
